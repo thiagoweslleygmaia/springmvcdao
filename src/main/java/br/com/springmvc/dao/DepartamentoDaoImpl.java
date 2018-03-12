@@ -2,7 +2,6 @@ package br.com.springmvc.dao;
 
 import java.util.List;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -13,14 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.springmvc.model.Departamento;
 
 @Repository
-@Transactional
-public class DepartamentoDaoImpl implements DepartamentoDao {
+@Transactional(readOnly = true)
+public class DepartamentoDaoImpl implements DepartamentoDao /*DepartamentoDaoCustom*/ {
 
 	@Autowired
-	private SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;	
 	
 	public DepartamentoDaoImpl() {
-		super();
+		super();		
 	}
 	
 	private Session getSession(){

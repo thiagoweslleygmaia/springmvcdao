@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,12 +22,15 @@ import br.com.springmvc.model.Departamento;
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ApplicationConfig.class})
+//@EnableJpaRepositories("br.com.springmvc.dao")
 @Rollback(value = true)
 @Transactional
 public class DepartamentoDaoTest {
 
 	@Autowired
-	DepartamentoDao departamentoDao;
+	private DepartamentoDao departamentoDao;
+//	@Autowired
+//	private DepartamentoDaoCustom departamentoDaoCustom;
 	
 	@Test
 	public void testSuccessBuscarDepartamento(){
