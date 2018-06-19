@@ -1,16 +1,18 @@
-package br.com.springmvc.dao;
+package br.com.springmvc.departamento.dao;
 
 import java.util.List;
 
 import br.com.springmvc.model.Departamento;
 
-public interface DepartamentoDaoCustomX {
-
+public interface DepartamentoDao  {
+	
 	Departamento buscarDepartamento(Departamento departamento);
 	
 	List<Departamento> listarDepartamentos();
 	
 	Departamento incluirDepartamento(Departamento departamento);
+	
+	Departamento get(Long id);
 	
 	Departamento atualizarDepartamento(Departamento departamento);
 	

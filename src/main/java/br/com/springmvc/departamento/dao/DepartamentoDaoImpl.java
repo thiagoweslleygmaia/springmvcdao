@@ -1,4 +1,4 @@
-package br.com.springmvc.dao;
+package br.com.springmvc.departamento.dao;
 
 import java.util.List;
 
@@ -7,16 +7,16 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.com.springmvc.model.Departamento;
 
 @Repository
-@Transactional(readOnly = true)
-public class DepartamentoDaoImpl implements DepartamentoDao /*DepartamentoDaoCustom*/ {
+//@Transactional(readOnly = true)
+public class DepartamentoDaoImpl implements DepartamentoDao {
 
 	@Autowired
-	private SessionFactory sessionFactory;	
+	private SessionFactory sessionFactory;
+	
 	
 	public DepartamentoDaoImpl() {
 		super();		
@@ -25,11 +25,13 @@ public class DepartamentoDaoImpl implements DepartamentoDao /*DepartamentoDaoCus
 	private Session getSession(){
 		return sessionFactory.getCurrentSession();
 	}
-	
+
+	@Override
 	public Departamento buscarDepartamento(Departamento departamento) {
 		String hql = "from Departamento d where d.codDepartamento = :codDepartamento";
 		Query<Departamento> query = getSession().createQuery(hql, Departamento.class)
 		.setParameter("codDepartamento", departamento.getCodDepartamento());
+		//query.getFetchSize()!=null ? query.getSingleResult() : null;
 		return query.getSingleResult();
 	}
 	
@@ -42,19 +44,29 @@ public class DepartamentoDaoImpl implements DepartamentoDao /*DepartamentoDaoCus
 	}
 	
 	public Departamento atualizarDepartamento(Departamento departamento) {
-		getSession().update(departamento);
+		Departamento dep = getSession().byId(Departamento.class).load(departamento.getCodDepartamento());
+		dep.setNomeDepartamento(departamento.getNomeDepartamento());
+		dep.setLocalizacaoDepartamento(departamento.getLocalizacaoDepartamento());
+		getSession().flush();
 		return departamento;
 	}
 	
 	@Override
 	public Departamento excluirDepartamento(Departamento departamento) {
-		getSession().delete(departamento);
+		Departamento dep = getSession().byId(Departamento.class).load(departamento.getCodDepartamento());
+		getSession().delete(dep);
 		return departamento;
 	}
 	
 	@Override
 	public Departamento incluirDepartamento(Departamento departamento) {
+		//Departamento dep = getSession().byId(Departamento.class).load(departamento.getCodDepartamento());
 		getSession().save(departamento);
 		return departamento;
+	}
+	
+	@Override
+	public Departamento get(Long id) {
+		return getSession().get(Departamento.class, id);
 	}
 }
