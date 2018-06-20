@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import br.com.springmvc.model.Departamento;
 
 @Repository
-//@Transactional(readOnly = true)
 public class DepartamentoDaoImpl implements DepartamentoDao {
 
 	@Autowired
@@ -32,7 +31,7 @@ public class DepartamentoDaoImpl implements DepartamentoDao {
 		Query<Departamento> query = getSession().createQuery(hql, Departamento.class)
 		.setParameter("codDepartamento", departamento.getCodDepartamento());
 		//query.getFetchSize()!=null ? query.getSingleResult() : null;
-		return query.getSingleResult();
+		return query.getSingleResult(); //CORRIGIR NULL POINTER, QUANDO NÃO VEM DADOS
 	}
 	
 	@Override
@@ -60,13 +59,8 @@ public class DepartamentoDaoImpl implements DepartamentoDao {
 	
 	@Override
 	public Departamento incluirDepartamento(Departamento departamento) {
-		//Departamento dep = getSession().byId(Departamento.class).load(departamento.getCodDepartamento());
 		getSession().save(departamento);
+		getSession().flush();				
 		return departamento;
-	}
-	
-	@Override
-	public Departamento get(Long id) {
-		return getSession().get(Departamento.class, id);
 	}
 }

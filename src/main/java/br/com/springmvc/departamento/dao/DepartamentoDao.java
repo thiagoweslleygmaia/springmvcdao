@@ -12,8 +12,6 @@ public interface DepartamentoDao  {
 	
 	Departamento incluirDepartamento(Departamento departamento);
 	
-	Departamento get(Long id);
-	
 	Departamento atualizarDepartamento(Departamento departamento);
 	
 	Departamento excluirDepartamento(Departamento departamento);
